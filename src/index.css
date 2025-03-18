@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-image: 
+    radial-gradient(at 100% 0%, rgba(16, 185, 129, 0.15) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(14, 116, 144, 0.2) 0px, transparent 50%);
+  background-attachment: fixed;
+}
+
+@layer components {
+  .gradient-heading {
+    @apply bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent;
+  }
+  
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+  }
+  
+  .glass-effect {
+    @apply bg-white/80 backdrop-blur-md;
+  }
+  
+  .button-primary {
+    @apply bg-secondary hover:bg-secondary/90 text-white transition-all shadow-md hover:shadow-lg;
+  }
+  
+  .button-secondary {
+    @apply bg-primary hover:bg-primary/90 text-white transition-all shadow-md hover:shadow-lg;
+  }
+}
