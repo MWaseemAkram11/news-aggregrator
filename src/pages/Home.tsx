@@ -46,7 +46,7 @@ const Home = () => {
         {isLoading && !isSearching ? (
         <div className="flex-1 flex flex-col items-center justify-center">
             <GlobeLoader size="lg" />
-            <h2 className="mt-6 text-xl font-medium">Loading NewsHub</h2>
+            <h2 className="mt-6 text-xl font-medium">Loading News Aggregrator</h2>
             <p className="text-muted-foreground mt-2">Fetching the latest news for you...</p>
         </div>
         ) : (
