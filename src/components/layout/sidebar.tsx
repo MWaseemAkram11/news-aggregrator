@@ -1,25 +1,28 @@
-
-
-import { useState } from "react"
-import { Calendar } from "../ui/calendar"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion"
-import { Checkbox } from "../ui/checkbox"
-import { Label } from "../ui/label"
-import { Button } from "../ui/button"
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
-import { format } from "date-fns"
-import { CalendarIcon, Filter, RefreshCw } from "lucide-react"
-import { cn } from "../../lib/utils"
-import { SOURCES, CATEGORIES } from "../../data/mock-data"
-import { LoadingDots } from "../ui/loader"
+import { useState } from "react";
+import { Calendar } from "../ui/calendar";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "../ui/accordion";
+import { Checkbox } from "../ui/checkbox";
+import { Label } from "../ui/label";
+import { Button } from "../ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { format } from "date-fns";
+import { CalendarIcon, Filter, RefreshCw } from 'lucide-react';
+import { cn } from "../../lib/utils";
+import { SOURCES, CATEGORIES } from "../../data/mock-data";
+import { LoadingDots } from "../ui/loader";
 
 interface SidebarProps {
-  selectedSources: string[]
-  selectedCategories: string[]
-  onSourceChange: (sources: string[]) => void
-  onCategoryChange: (categories: string[]) => void
-  onDateChange: (fromDate: string, toDate: string) => void
-  isSearching: boolean
+  selectedSources: string[];
+  selectedCategories: string[];
+  onSourceChange: (sources: string[]) => void;
+  onCategoryChange: (categories: string[]) => void;
+  onDateChange: (fromDate: string, toDate: string) => void;
+  isSearching: boolean;
 }
 
 export default function Sidebar({
@@ -30,54 +33,57 @@ export default function Sidebar({
   onDateChange,
   isSearching,
 }: SidebarProps) {
-  const [fromDate, setFromDate] = useState<Date | undefined>(undefined)
-  const [toDate, setToDate] = useState<Date | undefined>(undefined)
-  const [activeFilters, setActiveFilters] = useState<number>(0)
+  const [fromDate, setFromDate] = useState<Date | undefined>(undefined);
+  const [toDate, setToDate] = useState<Date | undefined>(undefined);
+  const [activeFilters, setActiveFilters] = useState<number>(0);
 
   const handleSourceToggle = (source: string) => {
     const updatedSources = selectedSources.includes(source)
       ? selectedSources.filter((s) => s !== source)
-      : [...selectedSources, source]
-    onSourceChange(updatedSources)
-    updateActiveFiltersCount(updatedSources.length, selectedCategories.length, !!fromDate || !!toDate)
-  }
+      : [...selectedSources, source];
+    onSourceChange(updatedSources);
+    updateActiveFiltersCount(updatedSources.length, selectedCategories.length, !!fromDate || !!toDate);
+  };
 
   const handleCategoryToggle = (category: string) => {
     const updatedCategories = selectedCategories.includes(category)
       ? selectedCategories.filter((c) => c !== category)
-      : [...selectedCategories, category]
-    onCategoryChange(updatedCategories)
-    updateActiveFiltersCount(selectedSources.length, updatedCategories.length, !!fromDate || !!toDate)
-  }
+      : [...selectedCategories, category];
+    onCategoryChange(updatedCategories);
+    updateActiveFiltersCount(selectedSources.length, updatedCategories.length, !!fromDate || !!toDate);
+  };
 
   const updateActiveFiltersCount = (sourcesCount: number, categoriesCount: number, hasDateFilter: boolean) => {
-    let count = 0
-    if (sourcesCount > 0) count++
-    if (categoriesCount > 0) count++
-    if (hasDateFilter) count++
-    setActiveFilters(count)
-  }
+    let count = 0;
+    if (sourcesCount > 0) count++;
+    if (categoriesCount > 0) count++;
+    if (hasDateFilter) count++;
+    setActiveFilters(count);
+  };
 
   const applyDateFilter = () => {
-    onDateChange(fromDate ? format(fromDate, "yyyy-MM-dd") : "", toDate ? format(toDate, "yyyy-MM-dd") : "")
-    updateActiveFiltersCount(selectedSources.length, selectedCategories.length, !!fromDate || !!toDate)
-  }
+    onDateChange(
+      fromDate ? format(fromDate, "yyyy-MM-dd") : "",
+      toDate ? format(toDate, "yyyy-MM-dd") : ""
+    );
+    updateActiveFiltersCount(selectedSources.length, selectedCategories.length, !!fromDate || !!toDate);
+  };
 
   const resetDateFilter = () => {
-    setFromDate(undefined)
-    setToDate(undefined)
-    onDateChange("", "")
-    updateActiveFiltersCount(selectedSources.length, selectedCategories.length, false)
-  }
+    setFromDate(undefined);
+    setToDate(undefined);
+    onDateChange("", "");
+    updateActiveFiltersCount(selectedSources.length, selectedCategories.length, false);
+  };
 
   const resetAllFilters = () => {
-    setFromDate(undefined)
-    setToDate(undefined)
-    onSourceChange([])
-    onCategoryChange([])
-    onDateChange("", "")
-    setActiveFilters(0)
-  }
+    setFromDate(undefined);
+    setToDate(undefined);
+    onSourceChange([]);
+    onCategoryChange([]);
+    onDateChange("", "");
+    setActiveFilters(0);
+  };
 
   return (
     <aside className="w-full md:w-64 shrink-0 space-y-6 md:border-r border-gray-200 pr-4">
@@ -92,13 +98,15 @@ export default function Sidebar({
               </span>
             )}
           </div>
-          <p className="text-sm text-muted-foreground">Customize your news feed</p>
+          <p className="text-sm text-muted-foreground">
+            Customize your news feed
+          </p>
         </div>
-
+        
         {activeFilters > 0 && (
-          <Button
-            variant="ghost"
-            size="sm"
+          <Button 
+            variant="ghost" 
+            size="sm" 
             onClick={resetAllFilters}
             className="text-xs flex items-center space-x-1 text-muted-foreground hover:text-foreground"
           >
@@ -122,7 +130,9 @@ export default function Sidebar({
           <AccordionTrigger className="hover:bg-gray-50 px-2 rounded-md transition-colors">
             News Sources
             {selectedSources.length > 0 && (
-              <span className="ml-2 text-xs font-medium text-primary">({selectedSources.length})</span>
+              <span className="ml-2 text-xs font-medium text-primary">
+                ({selectedSources.length})
+              </span>
             )}
           </AccordionTrigger>
           <AccordionContent>
@@ -151,7 +161,9 @@ export default function Sidebar({
           <AccordionTrigger className="hover:bg-gray-50 px-2 rounded-md transition-colors">
             Categories
             {selectedCategories.length > 0 && (
-              <span className="ml-2 text-xs font-medium text-primary">({selectedCategories.length})</span>
+              <span className="ml-2 text-xs font-medium text-primary">
+                ({selectedCategories.length})
+              </span>
             )}
           </AccordionTrigger>
           <AccordionContent>
@@ -179,7 +191,11 @@ export default function Sidebar({
         <AccordionItem value="date" className="border-b border-gray-200">
           <AccordionTrigger className="hover:bg-gray-50 px-2 rounded-md transition-colors">
             Date Range
-            {(fromDate || toDate) && <span className="ml-2 text-xs font-medium text-primary">(Active)</span>}
+            {(fromDate || toDate) && (
+              <span className="ml-2 text-xs font-medium text-primary">
+                (Active)
+              </span>
+            )}
           </AccordionTrigger>
           <AccordionContent>
             <div className="space-y-4 pt-2">
@@ -193,7 +209,7 @@ export default function Sidebar({
                       className={cn(
                         "w-full justify-start text-left font-normal",
                         !fromDate && "text-muted-foreground",
-                        fromDate && "border-primary/50",
+                        fromDate && "border-primary/50"
                       )}
                     >
                       <CalendarIcon className="mr-2 h-4 w-4" />
@@ -206,7 +222,7 @@ export default function Sidebar({
                       selected={fromDate}
                       onSelect={setFromDate}
                       initialFocus
-                      className="rounded-md border border-gray-200"
+                      className="rounded-md border bg-white border-gray-200 "
                     />
                   </PopoverContent>
                 </Popover>
@@ -222,7 +238,7 @@ export default function Sidebar({
                       className={cn(
                         "w-full justify-start text-left font-normal",
                         !toDate && "text-muted-foreground",
-                        toDate && "border-primary/50",
+                        toDate && "border-primary/50"
                       )}
                     >
                       <CalendarIcon className="mr-2 h-4 w-4" />
@@ -235,17 +251,24 @@ export default function Sidebar({
                       selected={toDate}
                       onSelect={setToDate}
                       initialFocus
-                      className="rounded-md border border-gray-200"
+                      className="rounded-md bg-white border border-gray-200"
                     />
                   </PopoverContent>
                 </Popover>
               </div>
 
               <div className="flex space-x-2">
-                <Button onClick={applyDateFilter} className="flex-1 button-primary">
+                <Button 
+                  onClick={applyDateFilter} 
+                  className="flex-1 button-primary"
+                >
                   Apply
                 </Button>
-                <Button onClick={resetDateFilter} variant="outline" className="flex-1">
+                <Button
+                  onClick={resetDateFilter}
+                  variant="outline"
+                  className="flex-1"
+                >
                   Reset
                 </Button>
               </div>
@@ -254,5 +277,5 @@ export default function Sidebar({
         </AccordionItem>
       </Accordion>
     </aside>
-  )
+  );
 }

@@ -14,6 +14,7 @@ interface ArticleCardProps {
 export default function ArticleCard({ article }: ArticleCardProps) {
   const [isSaved, setIsSaved] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [imageError, setImageError] = useState(false);
   const { toast } = useToast();
   
   const formattedDate = formatDistanceToNow(new Date(article.publishedAt), {
@@ -36,10 +37,28 @@ export default function ArticleCard({ article }: ArticleCardProps) {
   };
   
   const shareArticle = () => {
-    // In a real app, this would use the Web Share API
-    toast({
-      title: "Share link copied",
-      description: "Article link copied to clipboard",
+    // Try to use the Web Share API if available
+    if (navigator.share) {
+      navigator.share({
+        title: article.title,
+        text: article.description,
+        url: article.url,
+      }).catch(() => {
+        // Fallback if sharing fails
+        copyToClipboard();
+      });
+    } else {
+      // Fallback for browsers that don't support the Web Share API
+      copyToClipboard();
+    }
+  };
+  
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(article.url).then(() => {
+      toast({
+        title: "Share link copied",
+        description: "Article link copied to clipboard",
+      });
     });
   };
 
@@ -53,20 +72,32 @@ export default function ArticleCard({ article }: ArticleCardProps) {
       sports: "bg-orange-500",
       politics: "bg-yellow-500",
       environment: "bg-emerald-500",
-      arts: "bg-indigo-500"
+      arts: "bg-indigo-500",
+      general: "bg-gray-500"
     };
     
     return category && colors[category] ? colors[category] : "bg-gray-500";
   };
 
+  const handleImageError = () => {
+    setImageError(true);
+  };
+
   return (
     <Card className="overflow-hidden flex flex-col h-full card-hover bg-card border border-gray-200">
-      <div className="relative h-48 w-full overflow-hidden">
-        <img
-          src={article.urlToImage || "/placeholder.svg?height=200&width=400"}
-          alt={article.title}
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-        />
+      <div className="relative h-48 w-full overflow-hidden bg-gray-100">
+        {!imageError ? (
+          <img
+            src={article.urlToImage || "/placeholder.svg"}
+            alt={article.title}
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+            onError={handleImageError}
+          />
+        ) : (
+          <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-gray-200">
+            <span className="text-gray-500 text-sm">No image available</span>
+          </div>
+        )}
         <div className="absolute top-2 right-2 flex space-x-1">
           <Badge className="bg-primary/80 hover:bg-primary backdrop-blur-sm text-white">
             {article.source.name}

@@ -1,11 +1,11 @@
-import type { Article } from "../../interfaces/articles"
-import ArticleCard from "./article-card"
-import { Skeleton } from "../ui/skeleton"
-import { GlobeLoader } from "../ui/loader"
+import { Article } from "../../interfaces/articles";
+import ArticleCard from "./article-card";
+import { Skeleton } from "../../components/ui/skeleton";
+import { GlobeLoader } from "../../components/ui/loader";
 
 interface NewsFeedProps {
-  articles: Article[]
-  isLoading: boolean
+  articles: Article[];
+  isLoading: boolean;
 }
 
 export default function NewsFeed({ articles, isLoading }: NewsFeedProps) {
@@ -34,7 +34,7 @@ export default function NewsFeed({ articles, isLoading }: NewsFeedProps) {
           ))}
         </div>
       </div>
-    )
+    );
   }
 
   if (articles.length === 0) {
@@ -45,7 +45,7 @@ export default function NewsFeed({ articles, isLoading }: NewsFeedProps) {
           Try adjusting your search or filter criteria to find more articles
         </p>
       </div>
-    )
+    );
   }
 
   return (
@@ -57,5 +57,5 @@ export default function NewsFeed({ articles, isLoading }: NewsFeedProps) {
         ))}
       </div>
     </div>
-  )
+  );
 }

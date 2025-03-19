@@ -13,6 +13,7 @@ export default function Home() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isSearching, setIsSearching] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
   const [searchParams, setSearchParams] = useState<SearchParams>({
     query: "",
     sources: [],
@@ -28,12 +29,14 @@ export default function Home() {
     const loadArticles = async () => {
       try {
         setIsSearching(true);
-        // Simulate API loading
-        setTimeout(async () => {
-          const data = await fetchArticles(searchParams);
+        setError(null);
+        
+        const data = await fetchArticles(searchParams);
+        
+        if (data.length === 0) {
+          setError("No articles found matching your criteria. Try adjusting your filters.");
+        } else {
           setArticles(data);
-          setIsSearching(false);
-          setIsLoading(false);
           
           // Show toast when search is complete
           if (searchParams.query || searchParams.sources.length > 0 || searchParams.categories.length > 0) {
@@ -42,14 +45,16 @@ export default function Home() {
               description: `Found ${data.length} articles matching your criteria`,
             });
           }
-        }, 1500);
+        }
       } catch (error) {
+        console.error("Error fetching articles:", error);
+        setError("Failed to fetch articles. Please try again later.");
         toast({
           title: "Error",
           description: "Failed to fetch articles. Please try again later.",
           variant: "destructive",
         });
-        console.error("Error fetching articles:", error);
+      } finally {
         setIsSearching(false);
         setIsLoading(false);
       }
@@ -97,7 +102,16 @@ export default function Home() {
             isSearching={isSearching}
           />
           <main className="flex-1">
-            <NewsFeed articles={articles} isLoading={isSearching} />
+            {error ? (
+              <div className="flex flex-col items-center justify-center h-64 text-center p-8 border border-dashed border-gray-300 rounded-lg bg-gray-50">
+                <h3 className="text-xl font-medium text-red-500">{error}</h3>
+                <p className="text-muted-foreground mt-2 max-w-md">
+                  Try adjusting your search or filter criteria to find more articles
+                </p>
+              </div>
+            ) : (
+              <NewsFeed articles={articles} isLoading={isSearching} />
+            )}
           </main>
         </div>
       )}

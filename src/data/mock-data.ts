@@ -1,10 +1,10 @@
-import type { Article } from "@/interfaces/article"
+import type { Article } from "../interfaces/articles"
 
 export const SOURCES = [
   { id: "newsapi", name: "NewsAPI" },
-  { id: "guardian", name: "The Guardian" },
   { id: "nyt", name: "New York Times" },
-]
+  { id: "guardian", name: "The Guardian" },
+];
 
 export const CATEGORIES = [
   { id: "business", name: "Business" },
@@ -16,20 +16,21 @@ export const CATEGORIES = [
   { id: "politics", name: "Politics" },
   { id: "environment", name: "Environment" },
   { id: "arts", name: "Arts" },
-]
+];
 
+// We'll keep the MOCK_ARTICLES array for fallback purposes
 // Generate dates for the articles
-const today = new Date()
-const yesterday = new Date(today)
-yesterday.setDate(yesterday.getDate() - 1)
-const twoDaysAgo = new Date(today)
-twoDaysAgo.setDate(twoDaysAgo.getDate() - 2)
-const threeDaysAgo = new Date(today)
-threeDaysAgo.setDate(threeDaysAgo.getDate() - 3)
-const fourDaysAgo = new Date(today)
-fourDaysAgo.setDate(fourDaysAgo.getDate() - 4)
-const fiveDaysAgo = new Date(today)
-fiveDaysAgo.setDate(fiveDaysAgo.getDate() - 5)
+const today = new Date();
+const yesterday = new Date(today);
+yesterday.setDate(yesterday.getDate() - 1);
+const twoDaysAgo = new Date(today);
+twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+const threeDaysAgo = new Date(today);
+threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
+const fourDaysAgo = new Date(today);
+fourDaysAgo.setDate(fourDaysAgo.getDate() - 4);
+const fiveDaysAgo = new Date(today);
+fiveDaysAgo.setDate(fiveDaysAgo.getDate() - 5);
 
 export const MOCK_ARTICLES: Article[] = [
   {
