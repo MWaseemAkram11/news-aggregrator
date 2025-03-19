@@ -9,4 +9,5 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  base: '/news-aggregrator/',  // Set the base path for GitHub Pages
 })
