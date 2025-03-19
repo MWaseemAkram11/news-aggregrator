@@ -2,6 +2,11 @@
 
 Welcome to the News Aggregator Web App, a modern web application built with React, TypeScript, Tailwind CSS, Storybook, and Docker. This project allows users to explore curated news articles seamlessly. 📰✨
 
+Fetching real data from these three data sources:
+-- The News API
+-- The Guardian API
+-- NYTimes API
+
 📌 Tech Stack
 
 React (Latest Version)
