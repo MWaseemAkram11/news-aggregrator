@@ -1,4 +1,4 @@
-import type { Article } from "../interfaces/articles";
+import type { Article } from "../interfaces/article";
 import type { SearchParams } from "../interfaces/search-params";
 import { MOCK_ARTICLES } from "../data/mock-data";
 

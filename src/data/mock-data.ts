@@ -199,3 +199,4 @@ export const MOCK_ARTICLES: Article[] = [
     category: "science",
   },
 ]
+
